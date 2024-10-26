@@ -40,6 +40,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.fragment:fragment-ktx:1.6.0") // Добавление этой зависимости для использования viewModels() в фрагментах
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

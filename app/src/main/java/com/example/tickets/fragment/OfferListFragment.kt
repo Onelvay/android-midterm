@@ -18,7 +18,8 @@ class OfferListFragment : Fragment() {
 
     private var _binding: FragmentOfferListBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: OfferViewModel by viewModels()
+    private val viewModel: OfferViewModel by viewModels()  // Используем viewModels() для получения ViewModel
+
     private lateinit var adapter: OfferListAdapter
 
     override fun onCreateView(
