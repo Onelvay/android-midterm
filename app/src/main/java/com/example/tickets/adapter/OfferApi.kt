@@ -1,9 +1,9 @@
 package com.example.tickets.adapter
 
-import retrofit2.http.GET
 import com.example.tickets.model.entity.Offer
+import retrofit2.http.GET
 
 interface OfferApi {
-    @GET("offers")
+    @GET("offer_list")
     suspend fun getOffers(): List<Offer>
 }

@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class OfferRepository {
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://google.com/")
+        .baseUrl("https://my-json-server.typicode.com/estharossa/fake-api-demo/") 
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

@@ -19,8 +19,12 @@ class OfferViewModel(private val repository: OfferRepository) : ViewModel() {
 
     private fun fetchOffers() {
         viewModelScope.launch {
-            val offerList = repository.getOffers()
-            _offers.value = offerList
+            try {
+                val offerList = repository.getOffers()
+                _offers.value = offerList
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
