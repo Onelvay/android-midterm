@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.tickets.R
 import com.example.tickets.adapter.OfferListAdapter
 import com.example.tickets.databinding.FragmentOfferListBinding
 import com.example.tickets.viewmodel.OfferViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class OfferListFragment : Fragment() {
@@ -38,8 +38,8 @@ class OfferListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         adapter = OfferListAdapter()
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
+        binding.offerList.layoutManager = LinearLayoutManager(requireContext())
+        binding.offerList.adapter = adapter
     }
 
     private fun observeOffers() {
@@ -51,13 +51,13 @@ class OfferListFragment : Fragment() {
     }
 
     private fun setupSortOptions() {
-        binding.radioButtonPrice.setOnCheckedChangeListener { _, isChecked ->
+        binding.sortByPrice.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 viewModel.sortOffersByPrice()
             }
         }
 
-        binding.radioButtonDuration.setOnCheckedChangeListener { _, isChecked ->
+        binding.sortByDuration.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 viewModel.sortOffersByDuration()
             }
