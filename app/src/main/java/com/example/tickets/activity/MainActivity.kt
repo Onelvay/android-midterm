@@ -1,27 +1,56 @@
 package com.example.tickets.activity
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.tickets.R
-import com.example.tickets.fragment.OfferListFragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tickets.adapter.OfferListAdapter
+import com.example.tickets.databinding.ActivityMainBinding
+import com.example.tickets.viewmodel.OfferViewModel
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var adapter: OfferListAdapter
+    private val viewModel: OfferViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupRecyclerView()
+        observeOffers()
+        setupSortOptions()
+    }
+
+    private fun setupRecyclerView() {
+        adapter = OfferListAdapter()
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
+    }
+
+    private fun observeOffers() {
+        lifecycleScope.launch {
+            viewModel.offers.collect { offers ->
+                adapter.submitList(offers)
+            }
+        }
+    }
+
+    private fun setupSortOptions() {
+        binding.radioButtonPrice.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                viewModel.sortOffersByPrice()
+            }
         }
 
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fragment_container_view, OfferListFragment.newInstance())
-            .commit()
+        binding.radioButtonDuration.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                viewModel.sortOffersByDuration()
+            }
+        }
     }
 }
